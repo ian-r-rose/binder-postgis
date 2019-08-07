@@ -10,5 +10,9 @@ fi
 
 psql postgres -c "CREATE USER test PASSWORD 'testpass'"
 createdb -O test test
+psql test -c "CREATE EXTENSION postgis"
+
+#ogr2ogr -f PostgreSQL PG:"dbname='test' user='test' password='testpass' port='5432' host='localhost'" \
+#  -lco OVERWRITE=yes --config PG_USE_COPY YES Qfaults_2018_shapefile 
 
 exec "$@"

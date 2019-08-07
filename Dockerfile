@@ -5,11 +5,9 @@ USER root
 #The trick in this Dockerfile is to change the ownership of /run/postgresql
 RUN  apt-get update && \
     apt-get install -qq -y \
-        postgresql postgresql-client && apt-get clean && \
+        libpq-dev postgresql postgresql-client postgis && apt-get clean && \
     chown jovyan /run/postgresql/
 
-COPY ./entrypoint.sh  /
-RUN chmod +x /entrypoint.sh
 
 
 
@@ -17,7 +15,17 @@ USER jovyan
 
 COPY *.ipynb ./
 
-RUN pip install --no-cache psycopg2 pandas ipython-sql
+#RUN conda install -c conda-forge geopandas matplotlib intake
+#RUN pip install intake-dcat intake_geopandas
+
+RUN wget https://earthquake.usgs.gov/static/lfs/nshm/qfaults/Qfaults_2018_shapefile.zip
+RUN unzip Qfaults_2018_shapefile.zip && rm Qfaults_2018_shapefile.zip
 
 ENV JUPYTER_ENABLE_LAB=1
+
+USER root
+COPY ./entrypoint.sh  /
+RUN chmod +x /entrypoint.sh
+USER jovyan
+
 ENTRYPOINT ["/entrypoint.sh"]

@@ -15,11 +15,13 @@ USER jovyan
 
 COPY *.ipynb ./
 
-#RUN conda install -c conda-forge geopandas matplotlib intake
-#RUN pip install intake-dcat intake_geopandas
+RUN conda install -c conda-forge geopandas matplotlib intake
+RUN pip install intake-dcat intake_geopandas
 
 RUN wget https://earthquake.usgs.gov/static/lfs/nshm/qfaults/Qfaults_2018_shapefile.zip
 RUN unzip Qfaults_2018_shapefile.zip && rm Qfaults_2018_shapefile.zip
+
+RUN pip install psycopg2
 
 ENV JUPYTER_ENABLE_LAB=1
 

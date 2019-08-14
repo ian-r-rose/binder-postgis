@@ -9,13 +9,14 @@ RUN apt-get update && \
 USER jovyan
 
 # Make some python installs
-RUN conda install -c conda-forge geopandas matplotlib intake
-RUN pip install intake-dcat intake_geopandas psycopg2
-RUN pip install git+https://github.com/ibis-project/ibis.git@8bb84bb
+RUN conda install -c conda-forge geopandas matplotlib intake cartopy
+RUN pip install intake-dcat intake_geopandas psycopg2 geoalchemy2
+RUN pip install git+https://github.com/ian-r-rose/ibis.git@eec61a6
 
-# Download sample data
-RUN wget https://earthquake.usgs.gov/static/lfs/nshm/qfaults/Qfaults_2018_shapefile.zip
+# Set up sample data
+COPY Qfaults_2018_shapefile.zip ./
 RUN unzip Qfaults_2018_shapefile.zip && rm Qfaults_2018_shapefile.zip
+COPY earthquakes.geojson ./
 
 ENV JUPYTER_ENABLE_LAB=1
 
@@ -26,7 +27,7 @@ RUN chmod +x /entrypoint.sh
 USER jovyan
 
 # Copy demo notebooks
-COPY demo.ipynb ./
+COPY postgis-ibis-geopandas.ipynb ./
 COPY catalog.yml ./
 RUN rmdir ./work
 

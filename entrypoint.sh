@@ -17,7 +17,7 @@ fi
 /usr/bin/createdb -O test test
 /usr/bin/psql test -c "CREATE EXTENSION postgis"
 
-# Load the shapefile into the database
+# Load the faults shapefile into the database
 ogr2ogr -f PostgreSQL PG:"dbname='test' user='test' password='testpass' port='5432' host='localhost'" \
   --debug on \
   -where "OGR_GEOMETRY='LineString' or OGR_GEOMETRY='MultiLineString'" \
@@ -28,6 +28,16 @@ ogr2ogr -f PostgreSQL PG:"dbname='test' user='test' password='testpass' port='54
   --config PG_USE_COPY YES \
   Qfaults_2018_shapefile
 rm -rf Qfaults_2018_shapefile
+# Load the earthquake data
+ogr2ogr -f PostgreSQL PG:"dbname='test' user='test' password='testpass' port='5432' host='localhost'" \
+  --debug on \
+  -lco OVERWRITE=yes \
+  -lco precision=NO \
+  -nln quakes \
+  --config PG_USE_COPY YES \
+  earthquakes.geojson
+rm earthquakes.geojson
+
 
 # Launch the notebook server
 exec "$@"

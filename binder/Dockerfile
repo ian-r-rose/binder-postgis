@@ -12,17 +12,18 @@ USER jovyan
 RUN conda install -c conda-forge geopandas matplotlib intake cartopy
 RUN pip install intake-dcat intake_geopandas psycopg2 geoalchemy2
 RUN pip install git+https://github.com/ian-r-rose/ibis.git@eec61a6
+RUN pip install git+https://github.com/intake/intake-sql@fc07c7a
 
 # Set up sample data
-COPY Qfaults_2018_shapefile.zip ./
+COPY data/Qfaults_2018_shapefile.zip ./
 RUN unzip Qfaults_2018_shapefile.zip && rm Qfaults_2018_shapefile.zip
-COPY earthquakes.geojson ./
+COPY data/earthquakes.geojson ./
 
 ENV JUPYTER_ENABLE_LAB=1
 
 # Set up the entrypoint
 USER root
-COPY ./entrypoint.sh  /
+COPY ./binder/entrypoint.sh  /
 RUN chmod +x /entrypoint.sh
 USER jovyan
 

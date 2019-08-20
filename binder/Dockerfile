@@ -11,7 +11,7 @@ USER jovyan
 # Make some python installs
 RUN conda install -c conda-forge geopandas matplotlib intake cartopy
 RUN pip install intake-dcat intake_geopandas psycopg2 geoalchemy2
-RUN pip install git+https://github.com/ian-r-rose/ibis.git@eec61a6
+RUN pip install git+https://github.com/ian-r-rose/ibis.git@be5178cc
 RUN pip install git+https://github.com/intake/intake-sql@fc07c7a
 
 # Set up sample data

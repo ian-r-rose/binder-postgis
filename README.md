@@ -1,4 +1,5 @@
 # PostGIS demo
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ian-r-rose/binder-postgis/master?urlpath=lab%2Ftree%2Fpostgis-ibis-geopandas.ipynb)
 
 Demo of three different ways of interacting with geospatial data in a PostGIS database.
 

@@ -30,6 +30,7 @@ USER jovyan
 # Copy demo notebooks
 COPY postgis-ibis-geopandas.ipynb ./
 COPY catalog.yml ./
+RUN fix-permissions ./
 RUN rmdir ./work
 
 ENTRYPOINT ["/entrypoint.sh"]
